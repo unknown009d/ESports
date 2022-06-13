@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dash.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <style>
+        .loading {
+            position: relative;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 8rem 0;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="images/logo.png" alt="">
+            </div>
+
+            <span class="logo_name">NIELIT FEST2022</span>
+        </div>
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="./dashboard.html?page=dashboard">
+                        <i class="uil uil-estate"></i>
+                        <span class="link-name">Dahsboard</span>
+                    </a></li>
+                <li><a href="./dashboard.html?page=total_students">
+                        <i class="uil uil-users-alt"></i>
+                        <span class="link-name">Total Users</span>
+                    </a></li>
+                <li><a href="./dashboard.html?page=games">
+                        <i class="uil uil-basketball"></i>
+                        <span class="link-name">Games</span>
+                    </a></li>
+                <li><a href="./dashboard.html?page=pending_payments">
+                        <i class="uil uil-exclamation-octagon"></i>
+                        <span class="link-name">Pending Payments</span>
+                    </a></li>
+                <li><a href="./dashboard.html?page=paid_payments">
+                        <i class="uil uil-bill"></i>
+                        <span class="link-name">Paid Users</span>
+                    </a></li>
+            </ul>
+
+            <ul class="logout-mode">
+                <li>
+                    <a href="index.html" onclick="logout();">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+            <div class="eventLogo">
+                <img src="images/upBanner.png" alt="Rendezvous 3.0">
+            </div>
+        </div>
+
+        <div class="dash-content" id="dash-content">
+            <svg width="140" height="140" class="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"
+                enable-background="new 0 0 0 0" xml:space="preserve">
+                <path fill="#4a4a4a"
+                    d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+                    <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s"
+                        from="0 50 50" to="360 50 50" repeatCount="indefinite" />
+                </path>
+            </svg>
+        </div>
+        <br><br>
+    </section>
+
+
+    <script src="script.js"></script>
+    <script>
+
+        if(!localStorage.getItem("LoginState"))
+        {
+            location.href = "index.html";
+        }
+        
+        let logout = () => {
+            localStorage.removeItem("LoginState");
+        };
+
+        let pageNOTFound = (elem) => {
+            return `
+            <div class='errorMsgPage'>
+                <h2> 
+                    <i class='uil uil-exclamation-triangle'></i> Error 404! Page Not found. </h2>
+                <p>The page you are trynig to find is either not available or you have mispelled it. 
+                    So, we are unable to find out the page for you. 
+                    If that's not the case then please wait for few moments and try again later.
+                </p>
+            </div>`;
+        }
+
+        let elem = e => { return document.getElementById(e) };
+        let paramString = (window.location.href).split('?')[1];
+        let queryString = new URLSearchParams(paramString);
+        let URLRequest = new Array();
+
+        //Function to open a page in the dashboard.
+        let openPage = async (name) => {
+            await fetch("pages/" + name + ".html")
+                .then(res => res.text())
+                .then(data => {
+                    elem("dash-content").innerHTML = data;
+                }).catch(err => console.error("Error : " + err))
+        }
+
+        queryString.forEach(data => {
+            URLRequest.push(data);
+        })
+
+        let acceptPayment = async (uid, name) => {
+            let _choice_ = confirm("Are you sure want to approve " + name + "'s payment of UID : " + uid);
+            if (_choice_) {
+                await fetch("api/paycheck.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        UID: uid
+                    })
+                }).then(res => { return res.text() })
+                    .then(data => {
+                        if (data[0] == "[" || data[0] == "{") {
+                            parseData = JSON.parse(data);
+                            /* Your Main Code here*/
+                            if (parseData.des == 1) {
+                                alert(name + "'s payment has been successfully accepted.");
+                            } else {
+                                alert(name + "'s payment has been declined due to some internal errors.");
+                                console.log("Error : " + parseData.error);
+                            }
+                            /* Main Code above*/
+
+                        } else {
+                            console.log("Error with API : " + data);
+                            alert("Sorry, there was a problem with the server.")
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Sorry, there was a problem with the application.")
+                    })
+            } else {
+                alert(name + "'s payment has been declined.");
+            }
+        };
+
+        let rejectPayment = async (uid, name) => {
+            let _choice_ = confirm("Are you sure want to remove " + name + "'s payment of UID : " + uid);
+            if (_choice_) {
+                await fetch("api/unpaycheck.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        UID: uid
+                    })
+                }).then(res => { return res.text() })
+                    .then(data => {
+                        if (data[0] == "[" || data[0] == "{") {
+                            parseData = JSON.parse(data);
+                            /* Your Main Code here*/
+                            if (parseData.des == 1) {
+                                alert(name + "'s payment has been successfully rejected.");
+                            } else {
+                                alert(name + "'s payment cannot process due to some internal errors.");
+                                console.log("Error : " + parseData.error);
+                            }
+                            /* Main Code above*/
+
+                        } else {
+                            console.log("Error with API : " + data);
+                            alert("Sorry, there was a problem with the server.")
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Sorry, there was a problem with the application.")
+                    })
+            } else {
+                alert(name + "'s delete request has been declined.");
+            }
+        };
+
+        let activeState = (menuNum) => {
+            let menuLinks = document.querySelectorAll("nav .menu-items .nav-links li a")
+            menuLinks.forEach(data => {
+                data.classList.remove("active");
+            });
+            menuLinks[menuNum].classList.add("active");
+        };
+        
+        let dashboardContent = async () => {
+            if (URLRequest.length < 1) {
+                setTimeout(() => {
+                    elem("dash-content").innerHTML = pageNOTFound();
+                }, 1000);
+            }
+            else if (URLRequest[0] == "dashboard") {
+                await openPage(URLRequest[0]);
+                activeState(0);
+                let getAllUsers = async () => {
+                    await fetch("api/dashboardEntries.php").then(res => { return res.text() })
+                        .then(data => {
+                            if (data[0] == "[" || data[0] == "{") {
+                                parseData = JSON.parse(data);
+                                /* Your Main Code here*/
+
+                                elem("totalStudentsNum").innerText = parseData["totalStudent"];
+                                elem("pendingPayments").innerText = parseData["Pending"];
+
+                                /* Main Code above*/
+
+                            } else {
+                                console.log("Error with API : " + data);
+                                alert("Sorry, there was a problem with the server.")
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Sorry, there was a problem with the application.")
+                        })
+
+                    await fetch("api/showRecent.php").then(res => { return res.text() })
+                        .then(data => {
+                            if (data[0] == "[" || data[0] == "{") {
+                                parseData = JSON.parse(data);
+                                /* Your Main Code here*/
+
+                                if (parseData.length < 1) {
+                                    elem("table-data").innerHTML = "<p class='noDataMessage'>No Entries still now...</p>";
+                                    return;
+                                }
+                                let output = `
+                        <table class="my-table">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>Semester</th>
+                                    <th>Game</th>
+                                    <th>Mobile</th>
+                                    <th>TID</th>
+                                    <th>Pay Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                        `;
+
+                                parseData.forEach(data => {
+                                    output += `
+                                <tr>
+                                    <td>${data.uid}</td>
+                                    <td>${data.name}</td>
+                                    <td>${data.branch}</td>
+                                    <td>${data.semester == 0 ? "N/A" : data.semester}</td>
+                                    <td>${data.game}</td>
+                                    <td>${data.mobile}</td>
+                                    <td>${data.TID == 0 ? "N/A" : data.TID}</td>
+                                    <td>${data.payStat}</td>
+                                    <td>${data.date}</td>
+                                </tr>
+                            `;
+                                });
+
+                                output += `
+                            </tbody>
+                        </table>
+                        `;
+                                elem("table-data").innerHTML = output;
+
+
+                                /* Main Code above*/
+
+                            } else {
+                                console.log("Error with API : " + data);
+                                alert("Sorry, there was a problem with the server.")
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Sorry, there was a problem with the application.")
+                        })
+
+                }
+                getAllUsers();
+                setInterval(() => {
+                    getAllUsers();
+                }, 5000);
+            }
+            else if (URLRequest[0] == "total_students") {
+                await openPage(URLRequest[0]);
+                activeState(1);
+                let getAllUsers = async () => {
+                    await fetch("api/showAllData.php").then(res => { return res.text() })
+                        .then(data => {
+                            if (data[0] == "[" || data[0] == "{") {
+                                parseData = JSON.parse(data);
+                                /* Your Main Code here*/
+
+                                if (parseData.length < 1) {
+                                    elem("table-data").innerHTML = "<p class='noDataMessage'>No Entries still now...</p>";
+                                    return;
+                                }
+                                let output = `
+                        <table class="my-table">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>Semester</th>
+                                    <th>Game</th>
+                                    <th>Mobile</th>
+                                    <th>TID</th>
+                                    <th>Pay Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                        `;
+
+                                parseData.forEach(data => {
+                                    output += `
+                                <tr>
+                                    <td>${data.uid}</td>
+                                    <td>${data.name}</td>
+                                    <td>${data.branch}</td>
+                                    <td>${data.semester == 0 ? "N/A" : data.semester}</td>
+                                    <td>${data.game}</td>
+                                    <td><a href='tel:${data.mobile}'>${data.mobile}</a></td>
+                                    <td>${data.TID == 0 ? "N/A" : data.TID}</td>
+                                    <td>${data.payStat}</td>
+                                    <td>${data.date}</td>
+                                </tr>
+                            `;
+                                });
+
+                                output += `
+                            </tbody>
+                        </table>
+                        `;
+                                elem("table-data").innerHTML = output;
+
+
+                                /* Main Code above*/
+
+                            } else {
+                                console.log("Error with API : " + data);
+                                alert("Sorry, there was a problem with the server.")
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Sorry, there was a problem with the application.")
+                        })
+
+                }
+                getAllUsers();
+                setInterval(() => {
+                    getAllUsers();
+                }, 5000);
+            }
+            else if (URLRequest[0] == "games") {
+                await openPage(URLRequest[0]);
+                activeState(2);
+                elem("table-data").innerHTML = "";
+                let getAllUsers = async (gameName, gameFullName) => {
+                    await fetch("api/game.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            game: gameName
+                        })
+                    }).then(res => { return res.text() })
+                        .then(data => {
+                            if (data[0] == "[" || data[0] == "{") {
+                                parseData = JSON.parse(data);
+                                /* Your Main Code here*/
+
+                                if (parseData.length < 1) {
+                                    elem("table-data").innerHTML = "<p class='noDataMessage'>No Entries still now...</p>";
+                                    return;
+                                }
+                                let output = `
+                        <div class='tableHeadingLabel'>
+                        <h3>${gameFullName}</h3>
+                        </div>
+                        <table class="my-table">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Name</th>
+                                    <th>Mobile</th>
+                                    <th>Branch</th>
+                                    <th>Semester</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                        `;
+
+                                parseData.forEach(data => {
+                                    output += `
+                                <tr>
+                                    <td>${data.uid}</td>
+                                    <td>${data.name}</td>
+                                    <td><a href='tel:${data.mobile}'>${data.mobile}</a></td>
+                                    <td>${data.branch}</td>
+                                    <td>${data.semester == 0 ? "N/A" : data.semester}</td>
+                                </tr>
+                            `;
+                                });
+
+                                output += `
+                            </tbody>
+                        </table>
+                        <br><br>
+                        `;
+
+                                elem("table-data").innerHTML += output;
+
+
+                                /* Main Code above*/
+
+                            } else {
+                                console.log("Error with API : " + data);
+                                if (data == "null") {
+                                    elem("table-data").innerHTML += "<p class='noDataMessage'>No " + gameName + " Entries still now...</p>";
+                                    return;
+                                }
+                                alert("Sorry, there was a problem with the server.")
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Sorry, there was a problem with the application.")
+                        })
+
+                }
+                //BGMI Table
+                await getAllUsers("bgmi", "BGMI (BattleGrounds Mobile India)");
+                //NFS Table
+                await getAllUsers("nfs", "NFS (Need for Spped) Most Wanted");
+                //Counter Strike Table
+                getAllUsers("csgo", "CS-GO (Counter Strike Global Offensive)");
+
+
+            }
+            else if (URLRequest[0] == "pending_payments") {
+                await openPage(URLRequest[0]);
+                activeState(3);
+                let getAllUsers = async () => {
+                    await fetch("api/unpaid.php").then(res => { return res.text() })
+                        .then(data => {
+                            if (data[0] == "[" || data[0] == "{") {
+                                parseData = JSON.parse(data);
+                                /* Your Main Code here*/
+
+                                if (parseData.length < 1) {
+                                    elem("table-data").innerHTML = "<p class='noDataMessage'>No Entries still now...</p>";
+                                    return;
+                                }
+                                let output = `
+                        <table class="my-table">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Name</th>
+                                    <th>Game</th>
+                                    <th>Mobile</th>
+                                    <th>TID</th>
+                                    <th>Date</th>
+                                    <th class="items-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                        `;
+
+                                parseData.forEach(data => {
+                                    output += `
+                                <tr>
+                                    <td>${data.uid}</td>
+                                    <td>${data.name}</td>
+                                    <td>${data.game}</td>
+                                    <td><a href='tel:${data.mobile}'>${data.mobile}</a></td>
+                                    <td>${data.TID == 0 ? "N/A" : data.TID}</td>
+                                    <td>${data.date}</td>
+                                    <td class="items-center">
+                                        <button class="actionBtn" onclick='acceptPayment("${data.uid}", "${data.name}")'>
+                                            <i class="uil uil-check"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                                });
+
+                                output += `
+                            </tbody>
+                        </table>
+                        `;
+                                elem("table-data").innerHTML = output;
+
+
+                                /* Main Code above*/
+
+                            } else {
+                                console.log("Error with API : " + data);
+                                alert("Sorry, there was a problem with the server.")
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Sorry, there was a problem with the application.")
+                        })
+
+                }
+                getAllUsers();
+                setInterval(() => {
+                    getAllUsers();
+                }, 5000);
+            }
+            else if (URLRequest[0] == "paid_payments") {
+                await openPage(URLRequest[0]);
+                activeState(4);
+                let getAllUsers = async () => {
+                    await fetch("api/paid.php").then(res => { return res.text() })
+                        .then(data => {
+                            if (data[0] == "[" || data[0] == "{") {
+                                parseData = JSON.parse(data);
+                                /* Your Main Code here*/
+
+                                if (parseData.length < 1) {
+                                    elem("table-data").innerHTML = "<p class='noDataMessage'>No Entries still now...</p>";
+                                    return;
+                                }
+                                let output = `
+                        <table class="my-table">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Name</th>
+                                    <th>Game</th>
+                                    <th>Mobile</th>
+                                    <th>TID</th>
+                                    <th>Date</th>
+                                    <th class="items-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                        `;
+
+                                parseData.forEach(data => {
+                                    output += `
+                                <tr>
+                                    <td>${data.uid}</td>
+                                    <td>${data.name}</td>
+                                    <td>${data.game}</td>
+                                    <td><a href='tel:${data.mobile}'>${data.mobile}</a></td>
+                                    <td>${data.TID == 0 ? "N/A" : data.TID}</td>
+                                    <td>${data.date}</td>
+                                    <td class="items-center">
+                                        <button class="actionBtn bdanger" onclick='rejectPayment("${data.uid}", "${data.name}")'>
+                                            <i class="uil uil-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                                });
+
+                                output += `
+                            </tbody>
+                        </table>
+                        `;
+                                elem("table-data").innerHTML = output;
+
+
+                                /* Main Code above*/
+
+                            } else {
+                                console.log("Error with API : " + data);
+                                alert("Sorry, there was a problem with the server.")
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            alert("Sorry, there was a problem with the application.")
+                        })
+
+                }
+                getAllUsers();
+                setInterval(() => {
+                    getAllUsers();
+                }, 5000);
+            }
+            else {
+                setTimeout(() => {
+                    elem("dash-content").innerHTML = pageNOTFound();
+                }, 1000);
+            }
+        }
+        dashboardContent();
+
+    </script>
+</body>
+
+</html>

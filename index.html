@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIELIT | Annual Fest 2022</title>
+
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="assets/bootstrap/bootstrap.min.js" defer></script>
+
+    <style>
+        .my-container-fluid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 50px;
+            gap: 1rem;
+        }
+
+        .game-card {
+            position: relative;
+            width: 100%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.177);
+            border-radius: 10px;
+            padding: 15px 0px 1px 15px;
+            margin: 20px 0;
+        }
+
+        .game-card:hover {
+            background: #0b5dd70f;
+        }
+
+        .game-card .image-wrapper {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 28%;
+            height: 100%;
+            background: rgb(44, 44, 44);
+            border-radius: 0 10px 10px 0;
+            overflow: hidden;
+        }
+
+        .game-card .image-wrapper .image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .game-card input[type="checkbox"] {
+            transform: scale(1.2);
+        }
+
+        .game-card input[type="checkbox"]:checked~label {
+            box-shadow: 0 0 1px 2px #0b5ed7;
+        }
+
+        .game-card label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: rgb(66, 66, 66);
+            padding: 15.6px 38px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+
+        .game-card .desc {
+            width: 65%;
+            padding-top: 5px;
+            line-height: 1rem;
+            font-size: 0.85rem;
+            font-weight: 400;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        #upi:checked~section {
+            height: 350px;
+            opacity: 1;
+        }
+
+        .upi-container section {
+            height: 0px;
+            opacity: 0;
+            overflow: hidden;
+            transition: height 700ms ease, opacity 500ms ease;
+        }
+
+        .upi-container .inputSec {
+            width: 100%;
+        }
+
+        .upi-container .qrcenter {
+
+            width: 90%;
+            /* aspect-ratio: 1 / 1; */
+            /* background: url(qr-code.png); */
+            /* background-position: center; */
+            /* background-size: cover; */
+            /* margin: 20px 0; */
+        }
+
+        .upi-container .qr-code img {
+            width: 90%;
+            margin: 1rem 0;
+            height: 150px;
+            object-fit: contain;
+        }
+
+        .banner {
+            width: 100%;
+            height: 100vh;
+            background: url(banner.webp) center/cover no-repeat;
+            background-size: cover;
+            animation: height-down 1.5s 1.8s cubic-bezier(.8, 0, .6, 1) forwards;
+        }
+
+        header {
+            padding: 40px 0;
+            padding-bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header h1 {
+            width: fit-content;
+            font-weight: 800;
+            background: #202020;
+            color: #fec215;
+            padding: 1rem 1.4rem;
+            border-radius: 4pt;
+        }
+
+        .ban {
+            height: 350px;
+            width: 100%;
+            background: url(https://www.mobigyaan.com/images/stories/Miscellaneous/NFS-Most-Wanted-Banner.jpg) center top/cover no-repeat;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.411);
+        }
+
+        @keyframes height-down {
+            0% {
+                height: 100vh;
+            }
+
+            100% {
+                height: 30vh;
+            }
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* TODO: Remove all these */
+        .my-container-fluid * {
+            animation: none 0s !important;
+            opacity: 1 !important;
+        }
+
+        .banner {
+            display: none;
+        }
+
+        @media only screen and (max-width: 512px) {
+            header {
+                width: 80%;
+                margin: 0 auto;
+            }
+        }
+
+        .disableAll {
+            opacity: 0.5 !important;
+            user-select: none;
+            pointer-events: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="banner">
+    </div>
+    <header>
+        <h1 class="text-center">Annual Fest - Rendezvous 3.0</h1>
+    </header>
+    <form id="frmRegister">
+        <div class="my-container-fluid">
+
+            <div class="container"
+                style="width: 90%; max-width: 400px; border-radius: 7px; padding: 20px; margin-top: 0px; margin-bottom: 0px; margin-right: 10px; margin-left: 0px; opacity: 0; animation: fade-in 750ms 3000ms ease forwards;">
+
+
+                <!-- <h2 class="mb-0">Available Games</h2> -->
+                <p class="mb-4 text-muted"><small>Please select your preferable games...</small></p>
+
+                <div class="game-card">
+
+                    <div class="image-wrapper">
+
+                        <img class="image"
+                            src="https://cdn.dnaindia.com/sites/default/files/styles/full/public/2021/06/27/981864-battlegrounds-mobile-india.jpg"></img>
+                    </div>
+
+                    <input type="checkbox" name="sgame" id="bgmi" value="bgmi">
+                    <label for="bgmi">BGMI</label>
+                    <p class="desc text-muted">Battlegrounds Mobile India is the Indian version of PUBG Mobile,
+                        exclusively for players in India.</p>
+                </div>
+
+                <div class="game-card">
+
+                    <div class="image-wrapper">
+
+                        <img class="image" src="images/CSGO-D.jpeg"></img>
+                    </div>
+
+                    <input type="checkbox" name="sgame" id="csgo" value="csgo">
+                    <label for="csgo">CS-GO</label>
+                    <p class="desc text-muted">The game pits two teams, Terrorists and Counter-Terrorists, against each
+                        other in different objective-based game modes</p>
+                </div>
+
+                <div class="game-card">
+
+                    <div class="image-wrapper">
+
+                        <img class="image" src="https://i1.sndcdn.com/artworks-000314433240-qit61l-t500x500.jpg"></img>
+                    </div>
+
+                    <input type="checkbox" name="sgame" id="nfs" value="nfs">
+                    <label for="nfs">NFS</label>
+                    <p class="desc text-muted">
+                        The game focuses on street racing-oriented gameplay involving a selection of events and racing
+                    </p>
+                </div>
+                <!-- 
+                <div class="game-card">
+
+                    <div class="image-wrapper">
+
+                        <img class="image"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ84saEeQO8-DotIkUg7vdYw1s7uAa3bAbd_Q&usqp=CAU"></img>
+                    </div>
+
+                    <input type="checkbox" name="csgo" id="csgo" value="csgo">
+                    <label for="csgo">CS Go</label>
+                    <p class="desc text-muted">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                </div> -->
+
+                <!-- <button type="submit" style="width: 100%; margin-top: 30px;" class="btn btn-primary btn-lg">Continue</button> -->
+                <div class="row" id="disableAll">
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-Cricket" value="cricket">
+                        <label for="g-cricket">Cricket</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-Football" value="football">
+                        <label for="g-Football">Football</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-Chess" value="chess">
+                        <label for="g-Chess">Chess</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-LUDO" value="ludo">
+                        <label for="g-LUDO">LUDO</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-Carrom" value="carrom">
+                        <label for="g-Carrom">Carrom</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-TOW" value="tug_of_war">
+                        <label for="g-TOW">Tug of war</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-100mr" value="100m_race">
+                        <label for="g-100mr">100m race</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-Vollyball" value="vollyball">
+                        <label for="g-Vollyball">Vollyball</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-MC" value="musical_chair">
+                        <label for="g-MC">Musical Chair</label>
+                    </div>
+                    <div class="col-6">
+                        <input type="checkbox" name="sgame" id="g-AW" value="arm_wrestling">
+                        <label for="g-AW">Arm Wrestling</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container"
+                style="width: 90%; max-width: 400px; opacity: 0; border-radius: 7px; padding: 20px; margin-top: 0px; margin-bottom: 40px; margin-left: 0px; margin-right: 0; animation: fade-in 750ms 3300ms ease forwards;">
+
+
+                <!-- <h2 class="mt-2 mb-0 pb-0 ">Registration</h2> -->
+                <p class="text-muted small mb-4">Please fill up your details...</p>
+
+                <div class="mb-4">
+                    <label for="name" class="form-label">Full Name :</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="eg. John Doe"
+                        oninput="checkText(this);" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="Branch" class="form-label">Branch :</label>
+                    <input type="text" list="dataBranch" class="form-control" id="Branch" name="Branch"
+                        placeholder="eg. Diploma in Computer Science and Engineering" autocomplete="off"
+                        oninput="checkNormal(this);valSem(this);" required>
+                    <datalist id="dataBranch">
+                        <option value="DCST">Diploma in Computer Science and Engineering</option>
+                        <option value="DETE">Diploma in Electronics & Telecommunication Engineering</option>
+                        <option value="BCA">Bachalor of Computer Application</option>
+                        <option value="Others">Teaching & Non-Teaching Staffs</option>
+                    </datalist>
+                </div>
+
+                <div class="mb-4">
+                    <label for="sem" class="form-label">Semester :</label>
+                    <input type="number" class="form-control" id="sem" min="0" max="10" name="sem" placeholder="eg. 6"
+                        required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="mobile" class="form-label">Mobile :</label>
+                    <input type="tel" class="form-control" id="mobile" maxlength="10" oninput="checkNumber(this);"
+                        name="mobile" placeholder="eg. 7845 234 534" required>
+                </div>
+
+                <!-- data-toggle="modal" data-target="#paymentModal" -->
+                <button type="submit" style="width: 100%; margin-top: 40px;" class="btn btn-primary btn-lg">
+                    Finish Registration
+                </button>
+                <!-- <a href="payment.html" style="width: 100%; margin-top: 30px;" class="btn btn-primary btn-lg">Make
+                    payment</a> -->
+
+
+            </div>
+        </div>
+    </form>
+    <!-- Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Complete Transaction</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmComplete">
+                    <div class="modal-body py-4">
+                        <div class="container-fluid"
+                            style="width: 100%; max-width: 400px; border-radius: 7px; padding: 5px;">
+                            <h2 class="mb-0">Payment Method</h2>
+                            <p class="mb-5 text-muted"><small>Please select your preffered payment method</small></p>
+
+                            <div class="form-check upi-container">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="upi" value="upi"
+                                    required>
+                                <label class="form-check-label" for="upi">
+                                    UPI (Unified Payments Interface) Payment
+                                </label>
+
+                                <section>
+
+                                    <div class="text-center qrcenter">
+                                        <div class="qr-code">
+                                            <img src="qr.jpeg" alt="QR">
+                                        </div>
+
+                                        <p class="mb-0 pb-0">Name: <strong>NEILIT AGARTALA</strong></p>
+                                        <p>UPI ID: <strong>NEILITAGT@SBI</strong></p>
+                                    </div>
+
+
+                                    <div class="p-2 mb-3 inputSec">
+                                        <label for="exampleInputEmail1" class="form-label">Transaction Id:</label>
+                                        <input type="text" class="form-control" id="txtTID" aria-describedby="emailHelp"
+                                            placeholder="eg. 65543421234" oninput="checkUPIID(this);">
+                                        <p class=""><small class="text-muted">* TransactionID from your UPI
+                                                Application after paying.</small></p>
+                                    </div>
+                                </section>
+                            </div>
+                            <hr>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="cash"
+                                    value="cash">
+                                <label class="form-check-label" for="cash">
+                                    Pay through receiption
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Complete Transation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+    <script>
+
+        let elem = e => { return document.querySelector(e) };
+
+        let disableChecks = () => {
+            let allCheckBox = document.querySelectorAll("#disableAll input");
+            allCheckBox.forEach(data => {
+                data.disabled = true;
+                data.nextElementSibling.classList.add("disableAll");
+            })
+        };
+        // Remove this to remove the other sports disable
+        disableChecks();
+
+        let showFormData = async () => {
+            document.getElementById("frmRegister").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                $('#paymentModal').modal('show');
+            });
+
+            document.getElementById("frmComplete").addEventListener("submit", async e => {
+                e.preventDefault();
+                if (elem("input[name='paymentMethod']").checked) {
+                    if (elem("#txtTID").value == "" || elem("#txtTID").value == undefined) {
+                        alert("Please enter the UPI Transation ID after doing the payment...");
+                        elem("#txtTID").focus();
+                        return;
+                    }
+                }
+                const frmRegister = new FormData(document.getElementById("frmRegister"));
+                const frmData = [...frmRegister.entries()];
+
+                let sendGames = "";
+                for (let count = 0; count < frmData.length; count++) {
+                    const data = frmData[count];
+                    if (data[0] == "sgame") sendGames += data[1] + ", ";
+                    else {
+                        break;
+                    }
+                }
+                sendGames = sendGames.slice(0, -2);
+
+                if(sendGames.length < 1){
+                    sendGames = "null"
+                }
+
+                await fetch("admin/api/Insert.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: elem("#name").value,
+                        branch: elem("#Branch").value,
+                        sem: elem("#sem").value,
+                        mobile: elem("#mobile").value,
+                        games: sendGames,
+                        tid: elem("input[name='paymentMethod']").checked == true ? elem("#txtTID").value : 0
+                    })
+                }).then(res => { return res.text() })
+                    .then(data => {
+                        if (data[0] == "[" || data[0] == "{") {
+                            newDataR = JSON.parse(data);
+                            let urlP = "?des=" + newDataR.des + "&uid=" + newDataR.uid + "&name=" + newDataR.name;
+                            if (newDataR[0] == 0) {
+                                urlP += "&error=" + data;
+                            }
+                            document.getElementById("frmRegister").reset();
+                            document.getElementById("frmComplete").reset();
+                            $('#paymentModal').modal('hide');
+                            location.href = ("confirmed.html" + urlP);
+                        } else {
+                            console.log("Error with API : " + data);
+                            alert("Sorry, there was a problem with the server.")
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Sorry, there was a problem with the application.")
+                    })
+
+            });
+
+        };
+
+        showFormData();
+
+        let valSem = elem => {
+            let validBranch = ["DCST", "DETE", "BCA"];
+            for (let index = 0; index < validBranch.length; index++) {
+                if (elem.value == validBranch[index] || elem.value == "") {
+                    elem.previousElementSibling.innerText = "Branch :";
+                    document.getElementById("sem").style.display = "block";
+                    document.getElementById("sem").previousElementSibling.style.display = "block";
+                    break;
+                } else {
+                    elem.previousElementSibling.innerText = "Player Type :";
+                    document.getElementById("sem").style.display = "none";
+                    document.getElementById("sem").value = 0;
+                    document.getElementById("sem").previousElementSibling.style.display = "none";
+                }
+            };
+
+        }
+
+        let checkNumber = (elems) => {
+            elems.value = elems.value.replace(/[^0-9]/g, "");
+        };
+        let checkText = (elems) => {
+            elems.value = elems.value.replace(/[^0-9@A-Za-z. ]/g, "");
+        };
+        let checkUPIID = (elems) => {
+            elems.value = elems.value.replace(/[^0-9A-Za-z-.]/g, "");
+        };
+        let checkNormal = (elems) => {
+            elems.value = elems.value.replace(/[^0-9@A-Za-z\/., ]/g, "");
+        };
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmed | Fest 2022</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .my-container {
+
+            width: 90%;
+            max-width: 400px;
+            border-radius: 7px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        .my-container section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 1.2rem;
+        }
+
+        .container #confirmed-video {
+
+            width: 107px;
+        }
+
+        .container h1 {
+
+            font-size: 1.3rem;
+            padding: 1.3rem 0;
+            text-align: center;
+        }
+
+        .container p {
+
+            text-align: center;
+            opacity: 1;
+        }
+
+        .container .close-icon {
+            display: inline-block;
+            margin: 0 0.5rem;
+            animation: headShake;
+            animation-duration: 1s;
+        }
+
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <svg width="140" height="140" class="loading" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0"
+        xml:space="preserve">
+        <path fill="#4a4a4a"
+            d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+            <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50"
+                to="360 50 50" repeatCount="indefinite" />
+        </path>
+    </svg>
+
+    <div class="container my-container d-none">
+
+
+        <section id="declined" class="d-none">
+
+            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="78" height="78"
+                viewBox="0 0 512 512" style=" fill:currentColor;">
+                <path fill="#E04F5F"
+                    d="M504.1,256C504.1,119,393,7.9,256,7.9C119,7.9,7.9,119,7.9,256C7.9,393,119,504.1,256,504.1C393,504.1,504.1,393,504.1,256z">
+                </path>
+                <path fill="#FFF"
+                    d="M285,256l72.5-84.2c7.9-9.2,6.9-23-2.3-31c-9.2-7.9-23-6.9-30.9,2.3L256,222.4l-68.2-79.2c-7.9-9.2-21.8-10.2-31-2.3c-9.2,7.9-10.2,21.8-2.3,31L227,256l-72.5,84.2c-7.9,9.2-6.9,23,2.3,31c4.1,3.6,9.2,5.3,14.3,5.3c6.2,0,12.3-2.6,16.6-7.6l68.2-79.2l68.2,79.2c4.3,5,10.5,7.6,16.6,7.6c5.1,0,10.2-1.7,14.3-5.3c9.2-7.9,10.2-21.8,2.3-31L285,256z">
+                </path>
+            </svg>
+
+            <h1>Something went wrong</h1>
+
+            <p class="text-muted">Sorry, it seems there was a problem with the registration. Please contact
+                us at <a href="tel:8416093281">+918416093281</a> for further details. If any money was deducted from
+                your account you will
+                get it by 48hrs.
+            </p>
+
+            <p class="mt-3" class="text-muted"><strong>UserID: </strong> <span class="userID"> 000000 </span> </p>
+            <p class="text-muted mb-0"> <small>Go back to <a href="index.html">Registration Page</a></small></p>
+        </section>
+
+
+        <section id="success" class="d-none">
+
+            <video id="confirmed-video" src="./checked-animation.mp4" autoplay muted></video>
+
+            <h1>Registration Confirmed</h1>
+
+            <div style="text-align: center;">
+                <p class="text-muted mb-0">Congragulations<span id="lbuserName"></span>, you are registered and now join
+                    us and participate on your
+                    interested
+                    games in the annual fest of presented by NIELIT Agartala
+                    <strong style="font-size: 1.2rem;">Rendezvous 3.0</strong>
+                </p>
+            </div>
+            <br>
+            <p class="mt-3" class="text-muted"><strong>UserID: </strong> <span class="userID"> 000000 </span> </p>
+            <p class="text-muted mb-0"> <small>Go back to <a href="index.html">Registration Page</a></small></p>
+        </section>
+
+    </div>
+
+    <footer class="container footerText d-none">
+        <p class="text-muted mb-0">* Please prefer taking a screenshot</p>
+        <p class="text-sm text-muted"><small>* Remember your UserID for more information.</small></p>
+    </footer>
+
+    <script>
+
+        
+
+        let $ = name => document.querySelector(name);
+
+        let removeLoading = () => {
+            $('.loading').classList.add('d-none');
+        }
+        let showTransactionInfo = index => {
+
+            removeLoading();
+
+            $('.my-container').classList.remove('d-none');
+            $('.footerText').classList.remove('d-none');
+
+            if (index == 0) {
+                $('#declined').classList.remove('d-none');
+            }
+            if (index == 1) {
+
+                // let video = document.createElement('video');
+                // video.setAttribute('id', 'confirmed-video');
+                // video.setAttribute('src', '/confirmed.mp4');
+                // video.autoplay = true;
+                // video.muted = true;
+                $('#success').classList.remove('d-none');
+                // $('#success').prepend(video);
+            }
+
+            $('.footerText').classList.remove('d-none');
+
+        }
+
+        let paramString = (window.location.href).split('?')[1];
+        let queryString = new URLSearchParams(paramString);
+        let URLRequest = new Array();
+
+        queryString.forEach(data => {
+            URLRequest.push(data);
+        })
+
+        if (URLRequest.length >= 2) {
+            setTimeout(() => { showTransactionInfo(URLRequest[0]); }, 1500);
+            document.querySelectorAll("span.userID").forEach(data => {
+                data.innerText = URLRequest[1];
+            });
+            console
+            document.getElementById("lbuserName").innerText = " " + URLRequest[2];
+
+        } else {
+            setTimeout(() => { showTransactionInfo(0); }, 1500);
+        }
+
+    </script>
+
+</body>
+
+</html>
